@@ -16,6 +16,7 @@ class Paddle(Turtle):
         # paddle = Turtle()
         self.shapesize(stretch_wid=5, stretch_len=1)
         self.shape('square')
+        self.speed(0)
         self.color('#fff')
         self.penup()
         self.goto(position)
