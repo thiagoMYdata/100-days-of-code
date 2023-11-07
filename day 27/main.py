@@ -55,4 +55,4 @@ ttk.Label(root, text='Miles', anchor='sw', background='#444').grid(column=2, row
 tk.mainloop()
 
 # eu tinha que fazer alguma edicao pra manter a streak..
-
+# last one comment just to save the streak 
