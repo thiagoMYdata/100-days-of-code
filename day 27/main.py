@@ -1,58 +1,34 @@
 import tkinter as tk
-from tkinter import ttk
+import ttkbootstrap as ttk
 
 
-root = tk.Tk()
-root.geometry('300x200')
+def miles_to_km():
+    miles = float(miles_input.get())
+    km = miles * 1.609
+    kilometer_result_label.config(text=str(km))
 
-
-# grid settings
-root.columnconfigure(tuple(range(3)), weight=1, uniform='a')
-
-
-# root.columnconfigure(3, weight=2, uniform='a')
-root.rowconfigure(tuple(range(3)), weight = 1, uniform='a' )
-
-root.rowconfigure(0, weight=3, uniform='a')
-
-root.rowconfigure(2, weight=3, uniform='a')
-
-number =  tk.DoubleVar(value=0)
-
-def numfunc():
-    value = number.get()
-    miles = value* 1.60934
-    number =  tk.DoubleVar()
-    return number
-
-    #  tk.IntVar(float(value) *)
-    # return number
-
-
-# def numfunc():
-#     value = number.get()
-#     miles = value * 0.621371  # Conversão de quilômetros para milhas
-#     return   # Retorna o valor formatado para exibir nas labels
-
-def update_label():
-    miles = numfunc()
-    label_miles.config(text=miles)
+root = ttk.Window(themename='solar')
+root.title('Miles to Kilometer Converter')
+root.config(padx=20, pady=20)
 
 
 
+miles_input = ttk.Entry(width=7)
+miles_input.grid(column=1, row=0)
 
-ttk.Label(root, text='Is equal to', anchor='e',background='#555').grid(column=0, row=1, sticky='NEWS', padx=5)
+miles_label = ttk.Label(text='Miles')
+miles_label.grid(column=2, row=0)
 
-ttk.Label(root, text='0', anchor='center',background='#666', textvariable=lambda :numfunc() ).grid(column=1, row=1, sticky='NEWS', pady=5)
+is_equal_label = ttk.Label(text='Is equal to')
+is_equal_label.grid(column=0, row=1)
 
-ttk.Label(root, text='km', anchor='w', background='#444').grid(column=2, row=1, sticky='NEWS', pady=5)
+kilometer_result_label = ttk.Label(text='0')
+kilometer_result_label.grid(column=1, row=1)
 
-ttk.Entry(root, textvariable=lambda: numfunc()).grid(column=1, row=0, sticky='s', pady=5)
+kilometer_label = ttk.Label(text='km')
+kilometer_label.grid(column=2, row=1)
 
-ttk.Label(root, text='Miles', anchor='sw', background='#444').grid(column=2, row=0, sticky='NEWS', pady=5)
+calculate_button = ttk.Button(text='Calculate', command=miles_to_km)
+calculate_button.grid(column=1, row=2)
 
-
-tk.mainloop()
-
-# eu tinha que fazer alguma edicao pra manter a streak..
-# last one comment just to save the streak 
+root.mainloop()
