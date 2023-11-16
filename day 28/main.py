@@ -30,3 +30,5 @@ canvas.pack()
 
 
 window.mainloop()
+
+gonna work on this file tomorrow
