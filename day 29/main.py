@@ -90,3 +90,7 @@ add_button.grid(row=3, column=1,columnspan=2, sticky='w',pady=2)
 
 # run
 window.mainloop()
+
+
+
+### i wanna continues this code tomorrow
