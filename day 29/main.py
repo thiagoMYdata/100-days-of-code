@@ -21,7 +21,17 @@ LONG_BREAK_MIN = 20
 
 
 # ---------------------------- SAVE PASSWORD ------------------------------- # 
-def password_save(user, email_user, password):
+
+def get_info():
+    # get web email_user password
+    web = web_var.get()
+    email_user = email_user_var.get()
+    password = password_var.get()
+
+    password_save(web=web, email_user=email_user, password=password)
+
+
+def password_save(web, email_user, password):
     try:
         pd.read_csv(r'100 days of code\day 29\mypasswordfile.csv')    
     except FileNotFoundError:    
@@ -32,11 +42,16 @@ def password_save(user, email_user, password):
 
     data = pd.read_csv(r'100 days of code\day 29\mypasswordfile.csv')
 
-    new_row = {'site':user, 'email or username':email_user, 'password':password}
+    mask = (data['site'] == web) & (data['email or username'] == email_user) & (data['password']  == password)
 
-    data = data.append(new_row, ignore_index=True)
+    print(any(mask))
 
-    data.to_csv(r'100 days of code\day 29\mypasswordfile.csv', index=False)
+    if not any(mask):
+        new_row = {'site':web, 'email or username':email_user, 'password':password}
+
+        data = data.append(new_row, ignore_index=True)
+
+        data.to_csv(r'100 days of code\day 29\mypasswordfile.csv', index=False)
 
 
 # ---------------------------- UI SETUP ------------------------------- #
@@ -49,12 +64,17 @@ canvas.pack(expand=True)
 grid_frame = tk.Frame(window,background='#fff')
 grid_frame.pack(expand=True, padx=40, fill='both')
 
-#grid configure
+# grid configure
 grid_frame.columnconfigure(tuple(range(3)),weight=2 ,uniform='a')
 grid_frame.columnconfigure(0, weight=1, uniform='a')
 
 grid_frame.rowconfigure(tuple(range(4)), uniform='a')
 
+
+# tkinter var
+web_var = tk.StringVar()
+email_user_var = tk.StringVar()
+password_var = tk.StringVar()
 
 
 # label create
@@ -63,15 +83,15 @@ email_username_label = ttk.Label(grid_frame, text='Email/Username: ', background
 password_label = ttk.Label(grid_frame, text= 'Password: ', background='#fff')
 
 # entry create
-website_entry = ttk.Entry(grid_frame, width=55)
+website_entry = ttk.Entry(grid_frame, width=55, textvariable=web_var)
 website_entry.focus() # focus()
-email_username_entry = ttk.Entry(grid_frame, width=55)
+email_username_entry = ttk.Entry(grid_frame, width=55, textvariable=email_user_var)
 email_username_entry.insert(0, 'youremail@gmail.com') # insert() 
-password_entry = ttk.Entry(grid_frame, width=41)
+password_entry = ttk.Entry(grid_frame, width=41, textvariable=password_var)
 
 # button create
 password_button = ttk.Button(grid_frame, text='Generate Password', width=25)
-add_button = ttk.Button(grid_frame, text='Add', width=55)
+add_button = ttk.Button(grid_frame, text='Add', width=55, command=get_info)
 
 # label grid
 website_label.grid(row=0, column=0, sticky='e', padx=5)
@@ -90,7 +110,3 @@ add_button.grid(row=3, column=1,columnspan=2, sticky='w',pady=2)
 
 # run
 window.mainloop()
-
-
-
-### i wanna continues this code tomorrow, tomorrow!
