@@ -1,7 +1,9 @@
 from tkinter import ttk
 import tkinter as tk
+from tkinter import messagebox
 import pandas as pd
-
+from password_builder import builder
+import pyperclip
 
 window = tk.Tk()
 window.config(pady=20,background='#fff')
@@ -19,6 +21,17 @@ LONG_BREAK_MIN = 20
 
 # ---------------------------- PASSWORD GENERATOR ------------------------------- # 
 
+def password_generator():
+
+    password = builder()
+
+    password_entry.delete(0, tk.END)
+    password_entry.insert(0, password)
+    pyperclip.copy(password)
+
+
+
+
 
 # ---------------------------- SAVE PASSWORD ------------------------------- # 
 
@@ -28,7 +41,13 @@ def get_info():
     email_user = email_user_var.get()
     password = password_var.get()
 
-    password_save(web=web, email_user=email_user, password=password)
+
+    if web != '' and password != '' and email_user != '': 
+
+        password_save(web=web, email_user=email_user, password=password)
+    
+    else:
+        messagebox.showwarning(title='Fill everything', message='Dont leave empty entry behind')
 
 
 def password_save(web, email_user, password):
@@ -44,14 +63,23 @@ def password_save(web, email_user, password):
 
     mask = (data['site'] == web) & (data['email or username'] == email_user) & (data['password']  == password)
 
-    print(any(mask))
-
     if not any(mask):
-        new_row = {'site':web, 'email or username':email_user, 'password':password}
+        is_ok = messagebox.askokcancel(title='Info confirmation', message=f'[*] Web:\n{web}\n\n[*] Email or user:\n {email_user}\n\n[*] Password:\n{password}')
+        
+        if is_ok:
+        
+            new_row = {'site':web, 'email or username':email_user, 'password':password}
 
-        data = data.append(new_row, ignore_index=True)
+            data = data.append(new_row, ignore_index=True)
 
-        data.to_csv(r'100 days of code\day 29\mypasswordfile.csv', index=False)
+            data.to_csv(r'100 days of code\day 29\mypasswordfile.csv', index=False)
+
+            website_entry.delete(0, tk.END)
+            password_entry.delete(0, tk.END)
+    
+    else:
+        messagebox.showinfo(title='Can\'t save', message='This info already been saved before')
+
 
 
 # ---------------------------- UI SETUP ------------------------------- #
@@ -90,7 +118,7 @@ email_username_entry.insert(0, 'youremail@gmail.com') # insert()
 password_entry = ttk.Entry(grid_frame, width=41, textvariable=password_var)
 
 # button create
-password_button = ttk.Button(grid_frame, text='Generate Password', width=25)
+password_button = ttk.Button(grid_frame, text='Generate Password', width=25, command=password_generator)
 add_button = ttk.Button(grid_frame, text='Add', width=55, command=get_info)
 
 # label grid
