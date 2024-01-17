@@ -5,9 +5,9 @@ from tkinter import *
 from tkinter import messagebox
 
 
-APP_ID = 'de9d5028'
-APP_KEY = '558a849619c85a56baa3ec291b111f63'
-SHEETY_TOKEN = 'Bearer Aroomwithoutbooksislikeabodywithoutasoul-MarcusTulliusCicero'
+APP_ID = # user_id
+APP_KEY = #user key
+SHEETY_TOKEN = # token
 
 
 exercise_endpoint = 'https://trackapi.nutritionix.com/v2/natural/exercise'
@@ -46,7 +46,7 @@ for j in range(len(response)):
     # print(data_to_sheets)
 
 
-    sheety_endpoint = 'https://api.sheety.co/95753c22d0a70356cce5e7796b998708/workoutTracking/workouts'
+    sheety_endpoint = # endpoint
 
 
 
